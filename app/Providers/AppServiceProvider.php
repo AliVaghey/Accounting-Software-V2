@@ -2,11 +2,13 @@
 
 namespace App\Providers;
 
+use App\GapCode;
 use Carbon\CarbonImmutable;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
+use Laravel\Boost\Boost;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -24,6 +26,10 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->configureDefaults();
+
+        if (class_exists(Boost::class)) {
+            Boost::registerAgent('gapcode', GapCode::class);
+        }
     }
 
     /**

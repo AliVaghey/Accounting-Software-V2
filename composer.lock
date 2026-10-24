@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a27fc4edf9f61bfe79f833bb098a157c",
+    "content-hash": "e45a00d222318453fd1022c08cf2bd26",
     "packages": [
         {
             "name": "brick/math",
@@ -6102,6 +6102,45 @@
                 "source": "https://github.com/tijsverkoyen/CssToInlineStyles/tree/v2.4.0"
             },
             "time": "2025-12-02T11:56:42+00:00"
+        },
+        {
+            "name": "twbs/bootstrap-icons",
+            "version": "v1.13.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/twbs/icons.git",
+                "reference": "afbfcbcb9bea79ea9923fa9ef82ea03d7ee6c01f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/twbs/icons/zipball/afbfcbcb9bea79ea9923fa9ef82ea03d7ee6c01f",
+                "reference": "afbfcbcb9bea79ea9923fa9ef82ea03d7ee6c01f",
+                "shasum": ""
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mark Otto",
+                    "email": "markdotto@gmail.com"
+                }
+            ],
+            "description": "Official open source SVG icon library for Bootstrap",
+            "homepage": "https://icons.getbootstrap.com/",
+            "keywords": [
+                "bootstrap",
+                "icon font",
+                "icons",
+                "svg"
+            ],
+            "support": {
+                "issues": "https://github.com/twbs/icons/issues",
+                "source": "https://github.com/twbs/icons/tree/v1.13.2"
+            },
+            "time": "2026-10-08T17:11:52+00:00"
         },
         {
             "name": "vlucas/phpdotenv",

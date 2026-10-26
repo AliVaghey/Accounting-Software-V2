@@ -8,6 +8,7 @@ You must always consult the knowledge notebook before performing any action to k
 ## Knowledge Notebook Location
 The knowledge notebook `SKILL.md` file is located at the `.ai/skills/knowledge-notebook/SKILL.md` path.
 The knowledge files about different features of the website is located at the `.ai/skills/knowledge-notebook/features` directory.
+To access knowledge notebook you must always go to the `.ai/skills/knowledge-notebook` directory and skip the `.agents/skills/knowledge-notebook` path.
 
 ## Feature Files Format
 Each feature file at the `.ai/skills/knowledge-notebook/feature` path must contain an explanation about how the feature works and its related routes, controller, views, model, and service.

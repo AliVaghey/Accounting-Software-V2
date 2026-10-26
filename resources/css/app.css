@@ -5,5 +5,50 @@
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 
 @theme {
+    --color-galaxy: #1b1d35;
+    --color-galaxy-deep: #131426;
+    --color-galaxy-ink: #f0f0fa;
+    --color-galaxy-muted: #b1b3ce;
+    --color-galaxy-accent: #bbb8ff;
+    --color-galaxy-error: #ffb0bf;
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+}
+
+@layer components {
+    .auth-input {
+        @apply min-h-13 w-full rounded-2xl bg-galaxy px-4 text-base text-galaxy-ink outline-none;
+        box-shadow: inset 5px 5px 10px #131426, inset -4px -4px 10px #252842;
+    }
+
+    .auth-input:focus-visible {
+        outline: 2px solid var(--color-galaxy-accent);
+        outline-offset: 3px;
+    }
+
+    .auth-input-invalid {
+        outline: 1px solid var(--color-galaxy-error);
+    }
+
+    .auth-button {
+        @apply flex min-h-13 cursor-pointer items-center justify-center gap-3 rounded-2xl bg-galaxy-accent px-5 text-sm font-semibold text-galaxy-deep;
+        box-shadow: 6px 6px 14px #111225, -5px -5px 14px #282b48;
+    }
+
+    .auth-button:hover {
+        background-color: #cbc9ff;
+    }
+
+    .auth-button:active {
+        box-shadow: inset 3px 3px 7px #9692d3, inset -3px -3px 7px #d5d2ff;
+    }
+
+    .auth-button:focus-visible,
+    .auth-link:focus-visible {
+        outline: 2px solid var(--color-galaxy-accent);
+        outline-offset: 5px;
+    }
+
+    .auth-link {
+        @apply inline-flex min-h-11 items-center font-medium text-galaxy-accent underline decoration-galaxy-accent/40 underline-offset-4 hover:decoration-galaxy-accent;
+    }
 }

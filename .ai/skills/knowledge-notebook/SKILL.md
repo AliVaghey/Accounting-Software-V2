@@ -9,12 +9,13 @@ This notebook describes the application as implemented. Read it before taking ac
 
 ## Project Context
 
-Accounting Software is a minimal personal transaction tracking application. Project requirements live in [project-information.md](../../guidelines/project-information.md): English, Asia/Tehran timezone, neumorphism, dark galaxy indigo colors, Bootstrap Icons, and a mobile size layout centered on desktop. Authentication implements the visual requirements; accounting features are not implemented yet.
+Accounting Software is a minimal personal transaction tracking application. Project requirements live in [project-information.md](../../guidelines/project-information.md): English, Asia/Tehran timezone, neumorphism, dark galaxy indigo colors, Bootstrap Icons, and a mobile size layout centered on desktop. Authentication and authenticated navigation implement the visual requirements; accounting page content is not implemented yet.
 
 ## Feature Index
 
 - [Project foundation](features/project-foundation.md): Installed stack, framework health endpoint (`GET /up`), infrastructure, and configuration differences. The starter welcome page has been removed.
-- [Authentication](features/authentication.md): Session login, registration, remember me, logout, validation, throttling, guest redirects, and an empty protected home page (`GET /home`, named `home`). Authentication forms use a centered mobile layout in dark indigo neumorphism.
+- [Authentication](features/authentication.md): Session login, registration, remember me, logout, validation, throttling, guest redirects, and the protected Dashboard (`GET /home`, named `home`). Authentication forms use a centered mobile layout in dark indigo neumorphism.
+- [Navigation menu](features/navigation-menu.md): Fixed bottom navigation on authenticated pages, four empty destination views, active links with hover prefetching, and an empty Livewire Add transaction dialog.
 
 ## Maintaining the Notebook
 

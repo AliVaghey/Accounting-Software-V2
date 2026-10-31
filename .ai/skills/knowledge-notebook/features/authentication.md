@@ -36,11 +36,11 @@ No schema changes or dependencies were needed. Existing users and sessions infra
 
 Login optionally sets Laravel's remember cookie. Failed credentials return the same generic error for an unknown email or wrong password. Five failures for an email/IP pair cause a 60-second lockout, with remaining time displayed inline; successful authentication clears that pair's counter. Login returns to `home` directly, as required by the prompt. Logout is implemented as a POST endpoint; no logout control is rendered because the home page must remain empty.
 
-Password reset and email verification flows are outside this task. The current home page intentionally renders no visible content.
+Password reset and email verification flows are outside this task. The home page is now the Dashboard destination: its main content is empty, with the shared authenticated [navigation menu](navigation-menu.md) and transaction dialog available.
 
 ## Verification
 
-- `php artisan test --compact tests/Feature/AuthenticationTest.php tests/Feature/ExampleTest.php`: 31 passing cases covering guest/auth redirects, empty home, registration and hashed persistence, normalized emails and duplicates, validation failures, unexpected input, rate limits and cooldown, login, remember cookies, session renewal, logout, and escaping.
+- The empty-home assertion now checks the empty main content slot while allowing shared navigation and Livewire assets. `php artisan test --compact tests/Feature/NavigationMenuTest.php tests/Feature/AuthenticationTest.php`: 41 passing cases, including the existing authentication coverage and new navigation behavior.
 - `php vendor/bin/phpstan analyse --no-progress --memory-limit=512M`: passed with zero errors.
 - `vendor/bin/pint --dirty --format agent`: formatter for changed PHP and Blade files.
 - Windows `cmd.exe /c npm run build`: frontend build passed. The existing font plugin emitted a nonblocking warning about optional optimized fallbacks.

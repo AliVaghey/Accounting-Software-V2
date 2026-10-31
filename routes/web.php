@@ -17,5 +17,8 @@ Route::middleware('guest')->group(function (): void {
 
 Route::middleware('auth')->group(function (): void {
     Route::view('/home', 'home')->name('home');
+    Route::view('/tags', 'tags')->name('tags');
+    Route::view('/transactions', 'transactions')->name('transactions');
+    Route::view('/statistics', 'statistics')->name('statistics');
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 });

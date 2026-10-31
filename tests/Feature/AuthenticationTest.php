@@ -39,7 +39,7 @@ test('renders an empty home page for authenticated users', function () {
     $response = $this->actingAs($user)->get('/home');
 
     $response->assertOk()->assertViewIs('home');
-    expect(trim(strip_tags(strstr($response->getContent(), '<body'))))->toBe('');
+    expect($response->getContent())->toMatch('/<main\b[^>]*>\s*<\/main>/s');
 });
 
 test('registers a user with a hashed password and starts a new authenticated session', function () {

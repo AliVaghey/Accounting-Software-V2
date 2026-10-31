@@ -15,6 +15,56 @@
 }
 
 @layer components {
+    .app-with-navigation {
+        padding-bottom: calc(8rem + env(safe-area-inset-bottom));
+    }
+
+    .bottom-navigation {
+        @apply fixed bottom-0 left-1/2 z-30 grid w-full max-w-[440px] -translate-x-1/2 items-center rounded-t-[28px] bg-galaxy pt-3 min-[360px]:gap-1 min-[360px]:px-3;
+        grid-template-columns: repeat(2, minmax(0, 1fr)) 3.5rem repeat(2, minmax(0, 1fr));
+        padding-bottom: calc(0.75rem + env(safe-area-inset-bottom));
+        box-shadow: 0 -8px 24px #11122566, inset 0 1px 0 #30334d;
+    }
+
+    .navigation-link {
+        @apply flex min-h-16 min-w-0 flex-col items-center justify-center gap-2 rounded-2xl text-galaxy-muted transition-colors hover:text-galaxy-ink;
+    }
+
+    .navigation-link[aria-current='page'] {
+        @apply text-galaxy-accent;
+        box-shadow: inset 4px 4px 8px #131426, inset -3px -3px 8px #252842;
+    }
+
+    .navigation-add {
+        @apply flex size-14 cursor-pointer items-center justify-center rounded-[20px] bg-galaxy-accent text-galaxy-deep transition-colors hover:bg-[#cbc9ff];
+        box-shadow: 5px 5px 12px #111225, -4px -4px 12px #282b48;
+    }
+
+    .navigation-add:active {
+        box-shadow: inset 3px 3px 7px #9692d3, inset -3px -3px 7px #d5d2ff;
+    }
+
+    .navigation-link:focus-visible,
+    .navigation-add:focus-visible,
+    .modal-close:focus-visible {
+        outline: 2px solid var(--color-galaxy-accent);
+        outline-offset: 3px;
+    }
+
+    .transaction-modal {
+        @apply fixed inset-0 m-auto w-[calc(100%-2rem)] max-w-[408px] max-h-[calc(100dvh-2rem)] overflow-y-auto rounded-[28px] bg-galaxy text-galaxy-ink;
+        box-shadow: 12px 12px 32px #111225, -6px -6px 24px #282b4866;
+    }
+
+    .transaction-modal::backdrop {
+        background-color: #0b0c1bd9;
+    }
+
+    .modal-close {
+        @apply flex size-11 cursor-pointer items-center justify-center rounded-2xl text-galaxy-muted hover:text-galaxy-ink;
+        box-shadow: 4px 4px 8px #131426, -3px -3px 8px #252842;
+    }
+
     .auth-input {
         @apply min-h-13 w-full rounded-2xl bg-galaxy px-4 text-base text-galaxy-ink outline-none;
         box-shadow: inset 5px 5px 10px #131426, inset -4px -4px 10px #252842;

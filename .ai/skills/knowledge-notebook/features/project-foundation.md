@@ -9,7 +9,7 @@ Initialized on October 24, 2026 from the Laravel blank Livewire starter kit. Acc
 Verified using Laravel Boost application information and `composer show --direct` during notebook initialization:
 
 - PHP 8.4 and Laravel 13.38.0.
-- Livewire 4.4.8 and Blaze 1.0.19; no application Livewire components yet.
+- Livewire 4.4.8 and Blaze 1.0.19; [navigation](navigation-menu.md) adds the first application Livewire component, an empty transaction dialog.
 - Bootstrap Icons 1.13.2.
 - Pest 5.3.3 with the Laravel plugin 5.0.1.
 - Default database connection: SQLite. Database contents and migration execution were not inspected.
@@ -21,7 +21,10 @@ Verified using Laravel Boost application information and `composer show --direct
 | Method | Path | Name | Behavior | Source |
 | --- | --- | --- | --- | --- |
 | GET/HEAD | `/` | None | Redirects guests to login and authenticated users to `/home` | `routes/web.php` |
-| GET/HEAD | `/home` | `home` | Empty authenticated home page | `routes/web.php` |
+| GET/HEAD | `/home` | `home` | Dashboard with empty main content and shared bottom navigation | `routes/web.php` |
+| GET/HEAD | `/tags` | `tags` | Empty authenticated Tags page with shared navigation | `routes/web.php` |
+| GET/HEAD | `/transactions` | `transactions` | Empty authenticated Transactions page with shared navigation | `routes/web.php` |
+| GET/HEAD | `/statistics` | `statistics` | Empty authenticated Statistics page with shared navigation | `routes/web.php` |
 | GET/HEAD | `/up` | Framework managed | Framework health endpoint | `bootstrap/app.php` |
 
 The welcome page has been removed. Application routes are verified with `php artisan route:list --except-vendor --no-interaction`; see [authentication](authentication.md) for authentication endpoints. The health endpoint is configured by `withRouting(health: '/up')` in `bootstrap/app.php`. Package routes are outside this feature inventory.
@@ -34,7 +37,7 @@ The welcome page has been removed. Application routes are verified with `php art
 - Models: `app/Models/User.php` is the starter user model, with its factory in `database/factories/UserFactory.php`. Neither endpoint requires user records.
 - Services: no feature service classes. `app/Providers/AppServiceProvider.php` contains application defaults and the Boost agent registration.
 - Persistence: starter migrations in `database/migrations/` define users, password reset tokens, sessions, cache, and jobs infrastructure. There are no accounting models or migrations.
-- Access: `/` and `/home` require authentication. `/up` remains a framework health endpoint.
+- Access: `/`, `/home`, `/tags`, `/transactions`, and `/statistics` require authentication. `/up` remains a framework health endpoint.
 
 ## Requirements and Configuration
 

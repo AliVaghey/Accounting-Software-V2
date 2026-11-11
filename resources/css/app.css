@@ -23,6 +23,11 @@
 }
 
 @layer components {
+    .dashboard-statistics {
+        @apply bg-galaxy;
+        box-shadow: 6px 6px 14px #111225, -4px -4px 12px #282b48;
+    }
+
     .transaction-card {
         @apply flex w-full cursor-pointer flex-col gap-3 rounded-3xl p-5 text-left;
         box-shadow: 6px 6px 14px #111225, -4px -4px 12px #282b48;

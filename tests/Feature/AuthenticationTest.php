@@ -33,13 +33,13 @@ test('redirects authenticated visitors from root and authentication pages to hom
     'register action' => ['post', '/register'],
 ]);
 
-test('renders an empty home page for authenticated users', function () {
+test('renders the dashboard for authenticated users', function () {
     $user = User::factory()->create();
 
     $response = $this->actingAs($user)->get('/home');
 
-    $response->assertOk()->assertViewIs('home');
-    expect($response->getContent())->toMatch('/<main\b[^>]*>\s*<\/main>/s');
+    $response->assertOk()->assertViewIs('home')->assertSeeLivewire('dashboard-overview')
+        ->assertSeeLivewire('recent-transactions');
 });
 
 test('registers a user with a hashed password and starts a new authenticated session', function () {

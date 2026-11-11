@@ -10,7 +10,7 @@ The shared bottom-navigation plus button opens the Add transaction dialog from e
 
 Alpine formats the amount with thousands separators while typing and preserves the caret by digit position; the deferred server value contains only digits. The input has `inputmode="numeric"`. Amounts are positive whole numbers from 1 to 999,999,999,999; no currency or fractional amount convention was specified. The description is trimmed, limited to 255 characters, and stored as null when blank. The modal footer remains outside the scrolling form body, with red Save expense and green Save income controls. Saving while editing can also change the transaction type. Enter submits as expense. Opening a fresh editor or closing it resets fields, errors, pagination, and editing identity. Close, Escape, and backdrop click dismiss it; native dialog behavior contains focus and the amount initially receives focus. Save buttons disable during requests. Successful saves close the modal and notify the ledger to refresh without dropping its loaded range.
 
-The page and modal reuse the existing dark galaxy indigo neumorphism and a centered shell no wider than 440px, including on desktop. The screen uses the established Instrument Sans and Bootstrap Icons. No charts, totals, dashboard changes, or contact-profile ledger were added.
+The page and modal reuse the existing dark galaxy indigo neumorphism and a centered shell no wider than 440px, including on desktop. The screen uses the established Instrument Sans and Bootstrap Icons. The [Dashboard](dashboard.md) now provides monthly tag statistics and the latest 30 transactions, using the shared card and editor. The contact-profile ledger remains deferred.
 
 ## Routes
 
@@ -22,7 +22,7 @@ The page and modal reuse the existing dark galaxy indigo neumorphism and a cente
 ## Related Source
 
 - View: `resources/views/transactions.blade.php` mounts `transaction-manager` within the existing app layout.
-- Ledger SFC: `resources/views/components/⚡transaction-manager.blade.php` owns the scoped, eager-loaded paginated query, deletion, save-event refresh, cards, and disclosure actions.
+- Ledger SFC: `resources/views/components/⚡transaction-manager.blade.php` owns the scoped, eager-loaded paginated query, deletion, save-event refresh, and disclosure state. `resources/views/components/transaction-card.blade.php` renders cards/actions shared with the Dashboard's recent list.
 - Editor SFC: `resources/views/components/⚡add-transaction-modal.blade.php` owns add/edit state, validation, scoped contact/tag queries, contact pagination, atomic persistence, and dialog markup. Its existing component name and dialog ID are retained for navigation integration.
 - Models: `app/Models/Transaction.php` defines integer amount/boolean income casts, `user()`, `contact()`, `tags()`, and `persianCreatedAt()`. `User::transactions()` and `Contact::transactions()` are has-many relationships; `Tag::transactions()` is the inverse many-to-many relationship. Query these through the current account for future statistics and filtering.
 - Migration: `database/migrations/2026_11_11_141537_create_transactions_table.php` defines ID, owner, unsigned integer amount, nullable contact/255-character description, income flag, and timestamps. Its user/created_at/ID index supports the ledger. Account deletion cascades transaction rows; contact deletion nulls the association and preserves the transaction.

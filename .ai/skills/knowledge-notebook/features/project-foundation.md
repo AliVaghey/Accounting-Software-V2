@@ -2,7 +2,7 @@
 
 ## Status and Purpose
 
-Initialized on October 24, 2026 from the Laravel blank Livewire starter kit. Accounting Software tracks personal transactions. [Authentication](authentication.md), tags, contacts, and [transaction management](transactions.md) are implemented; the accounting dashboard remains deferred.
+Initialized on October 24, 2026 from the Laravel blank Livewire starter kit. Accounting Software tracks personal transactions. [Authentication](authentication.md), tags, contacts, [transaction management](transactions.md), and the [Dashboard](dashboard.md) are implemented; Statistics remains deferred.
 
 ## Installed Stack
 
@@ -21,7 +21,7 @@ Verified using Laravel Boost application information and `composer show --direct
 | Method | Path | Name | Behavior | Source |
 | --- | --- | --- | --- | --- |
 | GET/HEAD | `/` | None | Redirects guests to login and authenticated users to `/home` | `routes/web.php` |
-| GET/HEAD | `/home` | `home` | Dashboard with empty main content and shared bottom navigation | `routes/web.php` |
+| GET/HEAD | `/home` | `home` | Persian date, monthly tag statistics, deferred latest transactions, and shared navigation | `routes/web.php` |
 | GET/HEAD | `/tags` | `tags` | [Account-owned tag management](tags.md) with shared navigation | `routes/web.php` |
 | GET/HEAD | `/transactions` | `transactions` | [Private transaction ledger and editor](transactions.md) with shared navigation | `routes/web.php` |
 | GET/HEAD | `/statistics` | `statistics` | Empty authenticated Statistics page with shared navigation | `routes/web.php` |
@@ -34,8 +34,8 @@ The welcome page has been removed. Application routes are verified with `php art
 
 ## Related Implementation
 
-- Controller: root redirect and empty home use route definitions directly. Authentication has two controllers; see its feature note. `app/Http/Controllers/Controller.php` is the base controller scaffold.
-- Views: `resources/views/home.blade.php` is the empty home page, sharing `resources/views/components/layouts/app.blade.php` with authentication.
+- Controller: root redirect and the home view use route definitions directly. Authentication has two controllers; see its feature note. `app/Http/Controllers/Controller.php` is the base controller scaffold.
+- Views: `resources/views/home.blade.php` mounts the Dashboard's Livewire components, using `resources/views/components/layouts/app.blade.php`.
 - Frontend assets: `resources/css/app.css` and `resources/js/app.js` are the existing entry points.
 - Models: `app/Models/User.php` is the starter user model, with its factory in `database/factories/UserFactory.php`. Neither endpoint requires user records.
 - Services: no feature service classes. `app/Providers/AppServiceProvider.php` contains application defaults and the Boost agent registration.

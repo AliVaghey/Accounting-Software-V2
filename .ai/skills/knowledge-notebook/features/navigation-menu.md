@@ -8,7 +8,7 @@ The five controls appear in this order: Dashboard, Tags, an icon-only Add transa
 
 The More disclosure uses local Alpine state supplied by Livewire, with no server request to toggle it. It starts closed, uses `x-cloak` to prevent a flash before Alpine initializes, and exposes its state through `aria-expanded` and `aria-controls`. Click, Enter, or Space toggles it; Tab reaches the two links. Outside clicks, focus leaving the disclosure, and Escape dismiss it; Escape restores focus to More. The menu is positioned above its trigger within the centered mobile shell and is recreated closed after navigation.
 
-Add transaction dispatches `open-transaction-modal` to a Livewire 4 single-file component. Its authenticated `open()` action sets `isOpen`; `close()` resets it. Alpine synchronizes that state with a native dialog using `showModal()` and `close()`. Native modal behavior provides focus containment and focus restoration. A close button, Escape, and a backdrop click dismiss the dialog. Its body intentionally contains no transaction fields or save action. Nothing is persisted.
+Add transaction dispatches `open-transaction-modal` to the shared Livewire 4 [transaction editor](transactions.md). Both initial render and updates require authentication. Alpine synchronizes `isOpen` with a native dialog using `showModal()` and `close()`, providing focus containment and restoration. Close, Escape, and backdrop clicks reset the form. The editor supports amount formatting, optional description, multiple tags, an infinite-scroll optional contact picker, and fixed expense/income save buttons. It also handles editing from ledger cards.
 
 ## Routes
 
@@ -18,11 +18,11 @@ All destinations use web and auth middleware in `routes/web.php`. Guests redirec
 | --- | --- | --- | --- |
 | GET/HEAD | `/home` | `home` | `home`; Dashboard tab, preserving existing authentication redirects |
 | GET/HEAD | `/tags` | `tags` | `tags`; [tag management](tags.md) |
-| GET/HEAD | `/transactions` | `transactions` | `transactions`; empty Transactions page |
+| GET/HEAD | `/transactions` | `transactions` | `transactions`; [transaction ledger](transactions.md) |
 | GET/HEAD | `/statistics` | `statistics` | `statistics`; empty Statistics page |
 | GET/HEAD | `/contacts` | `contacts` | `contacts`; [contact management](contacts.md) |
 
-The Dashboard uses the existing empty `resources/views/home.blade.php`; there is no separate `/dashboard` endpoint. Dashboard, Transactions, and Statistics content slots intentionally remain empty. Tags mounts `tag-manager` and Contacts mounts `contact-manager`. Contact profiles at `/contacts/{contact}` intentionally keep their main content empty. The transaction modal has no dedicated page route; it uses Livewire's framework update endpoint and requires authentication to open.
+The Dashboard uses the existing empty `resources/views/home.blade.php`; there is no separate `/dashboard` endpoint. Dashboard and Statistics content slots intentionally remain empty. Tags mounts `tag-manager`, Contacts mounts `contact-manager`, and Transactions mounts `transaction-manager`. Contact profiles at `/contacts/{contact}` intentionally keep their main content empty. The transaction modal has no dedicated page route and uses Livewire's framework update endpoint.
 
 ## Related Source
 
@@ -31,7 +31,7 @@ The Dashboard uses the existing empty `resources/views/home.blade.php`; there is
 - Livewire component: `resources/views/components/⚡add-transaction-modal.blade.php` contains server state/actions and dialog markup. There is no separate controller or class file.
 - Page views: `resources/views/home.blade.php`, `tags.blade.php`, `transactions.blade.php`, `statistics.blade.php`, and `contacts.blade.php`.
 - Styles: `resources/css/app.css` reuses galaxy tokens, neumorphic shadows, keyboard focus outlines, and safe area padding. `resources/js/app.js` remains empty; Alpine comes from Livewire.
-- Models/services: none added. Authentication uses the existing user/session infrastructure. No migrations or dependency changes.
+- Navigation itself adds no models/services. The shared dialog now uses the [transaction models and migrations](transactions.md); authentication still uses the existing user/session infrastructure. No dependency changes.
 
 ## Verification and Limits
 
@@ -43,4 +43,4 @@ The Dashboard uses the existing empty `resources/views/home.blade.php`; there is
 - Frontend design inspector passed with explicit allowances for required indigo/neumorphic controls, small navigation labels, and intentionally empty page content. Screenshots were visually reviewed. Project requirements take precedence over the design skill's neutral color and populated-page defaults.
 - More menu checks in headless Chrome passed at 320, 390, 768, and 1440px: upward positioning within the mobile shell, no horizontal overflow, click and Enter toggling, Tab order, Escape focus restoration, outside click and focus dismissal, both destination links, correct active state, and menu reuse after Livewire navigation. No JavaScript exceptions occurred. The isolated preview used an unsaved factory user and array sessions/cache; it created no account records. Open-menu screenshots were reviewed at all four widths.
 - The Contacts frontend inspector passed at 390, 768, and 1440px with zero failures. Allowances preserve the requested empty page and existing indigo/neumorphic design. Its remaining small-text warning is the existing 11px bottom-navigation labels; the drop-up labels are 14px.
-- Tags and Contacts content and persistence are implemented; see [Tags](tags.md) and [Contacts](contacts.md). Dashboard, Transactions, Statistics, and transaction creation remain deferred. The navigation test retains empty-content assertions for those three destinations and checks the shared navigation on all five destinations. `ContactsTest` covers the active Contacts destination on an empty contact profile. Contact and navigation tests pass together: 47 cases, 233 assertions.
+- Tags, Contacts, and Transactions content and persistence are implemented; see [Tags](tags.md), [Contacts](contacts.md), and [Transactions](transactions.md). Dashboard and Statistics remain deferred; navigation tests retain empty-content assertions for those two destinations. `ContactsTest` covers the active Contacts destination on an empty contact profile. Transaction and navigation tests pass together: 56 cases, 325 assertions; the shared editor works from every authenticated destination.

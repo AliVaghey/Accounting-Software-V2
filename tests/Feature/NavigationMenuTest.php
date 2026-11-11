@@ -41,7 +41,7 @@ test('renders the navigation on every authenticated destination', function (stri
     expect($xpath->query('//div[@id="more-options"]//a')->item(1)->getAttribute('href'))->toBe(route('contacts'));
     expect($xpath->query('//button[@id="more-options-button" and contains(@class, "navigation-more-active")]'))
         ->toHaveCount(in_array($routeName, ['statistics', 'contacts']) ? 1 : 0);
-    if (! in_array($routeName, ['tags', 'contacts'])) {
+    if (! in_array($routeName, ['tags', 'contacts', 'transactions'])) {
         expect($response->getContent())->toMatch('/<main\b[^>]*>\s*<\/main>/s');
     }
 })->with([
@@ -58,7 +58,7 @@ test('omits navigation and the transaction modal from authentication pages', fun
         ->assertDontSeeLivewire('add-transaction-modal');
 })->with(['/login', '/register']);
 
-test('opens closes and reopens the empty transaction modal', function () {
+test('opens closes and reopens the transaction modal', function () {
     $user = User::factory()->create();
 
     Livewire::actingAs($user)->test('add-transaction-modal')
@@ -75,6 +75,5 @@ test('opens closes and reopens the empty transaction modal', function () {
 
 test('refuses to open the transaction modal without authentication', function () {
     Livewire::test('add-transaction-modal')
-        ->dispatch('open-transaction-modal')
         ->assertForbidden();
 });

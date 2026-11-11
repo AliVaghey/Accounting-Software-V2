@@ -9,15 +9,16 @@ This notebook describes the application as implemented. Read it before taking ac
 
 ## Project Context
 
-Accounting Software is a minimal personal transaction tracking application. Project requirements live in [project-information.md](../../guidelines/project-information.md): English, Asia/Tehran timezone, neumorphism, dark galaxy indigo colors, Bootstrap Icons, and a mobile size layout centered on desktop. Authentication, authenticated navigation, tags, and contacts implement the visual requirements; transaction functionality is not implemented yet.
+Accounting Software is a minimal personal transaction tracking application. Project requirements live in [project-information.md](../../guidelines/project-information.md): English, Asia/Tehran timezone, neumorphism, dark galaxy indigo colors, Bootstrap Icons, and a mobile size layout centered on desktop. Authentication, navigation, tags, contacts, and transactions are implemented. Dashboard and Statistics content remain deferred.
 
 ## Feature Index
 
 - [Project foundation](features/project-foundation.md): Installed stack, framework health endpoint (`GET /up`), infrastructure, and configuration differences. The starter welcome page has been removed.
 - [Authentication](features/authentication.md): Session login, registration, remember me, logout, validation, throttling, guest redirects, and the protected Dashboard (`GET /home`, named `home`). Authentication forms use a centered mobile layout in dark indigo neumorphism.
-- [Navigation menu](features/navigation-menu.md): Fixed bottom navigation on authenticated pages, active links with hover prefetching, a More drop-up linking to Statistics and Contacts, and an empty Livewire Add transaction dialog. Tags and Contacts contain account-owned management screens; Dashboard, Transactions, and Statistics remain empty.
-- [Tags](features/tags.md): Account-owned tags at `GET /tags` (named `tags`), an unpaginated alphabetical list of color cards, and Livewire create/edit dialogs with preset and custom colors, validation, and confirmed deletion. No transaction models or relationships are implemented.
+- [Navigation menu](features/navigation-menu.md): Fixed bottom navigation on authenticated pages, active links with hover prefetching, a More drop-up linking to Statistics and Contacts, and the shared transaction editor. Dashboard and Statistics remain empty.
+- [Tags](features/tags.md): Account-owned tags at `GET /tags` (named `tags`), an unpaginated alphabetical list of color cards, Livewire create/edit dialogs, and many-to-many transaction attachments.
 - [Contacts](features/contacts.md): Account-owned contacts at `GET /contacts` (named `contacts`), a two-column infinite-scroll grid, optional private profile photos, create/edit dialogs, hidden icon actions, confirmed deletion, and protected empty profile pages at `GET /contacts/{contact}`.
+- [Transactions](features/transactions.md): Account-owned income/expense CRUD at `GET /transactions`, infinite scrolling, signed colored cards with Persian dates, and a shared add/edit modal with live amount formatting, multiple tags, optional paginated contacts, and fixed save buttons.
 
 ## Maintaining the Notebook
 

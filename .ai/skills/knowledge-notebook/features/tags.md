@@ -12,7 +12,7 @@ Each card has labeled Edit and Delete buttons. Delete asks for confirmation nami
 
 - `GET|HEAD /tags`, named `tags`, in `routes/web.php`, uses web and auth middleware. Guests redirect to `login`.
 - Create, edit, save, close, and delete use Livewire's framework update endpoint; there are no custom mutation routes.
-- Transaction routes and the shared Add transaction placeholder dialog retain their existing behavior. No transaction model, attachment table, or relationship has been added.
+- [Transactions](transactions.md) uses the existing authenticated `/transactions` route and the shared Add transaction editor. `Tag::transactions()` provides the inverse many-to-many relationship through `tag_transaction`; deleting a tag removes its attachments while preserving transactions.
 
 ## Related Source
 

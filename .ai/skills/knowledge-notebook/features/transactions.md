@@ -1,0 +1,50 @@
+# Transactions
+
+## Purpose and Behavior
+
+Implemented from `.prompts/06.Transactions.md`. Each authenticated account can create expenses or income, edit either type, and delete transactions after confirmation. The Transactions screen answers “What money came in and went out?” with a latest-first ledger. It initially shows 12 records and grows by 12 when the end sentinel intersects the viewport. A Load more transactions button supports manual loading and retries. Ordering uses creation time descending, then ID descending; the displayed count describes the rendered range. Loading stops at the final batch.
+
+Cards use green income and red expense surfaces, signed amounts with thousands separators, optional descriptions, contact names, colored tag chips, the owner's name, and creation timestamps. Missing values say No description, No contact, or No tags. The database ID and update timestamp are not displayed as card data. Clicking a card reveals Edit and Delete controls beneath it. Dates use the Persian calendar with English digits (`yyyy/MM/dd · HH:mm`), explicitly converted to Asia/Tehran. `config/app.php` still uses UTC for storage/application timestamps; this feature does not change global configuration. Calendar formatting uses the installed PHP `intl` extension and ICU, including leap days and Tehran midnight boundaries.
+
+The shared bottom-navigation plus button opens the Add transaction dialog from every authenticated destination. The page header and empty ledger also provide add actions. Edit loads the same dialog with stored values. Fields appear in this order: amount, optional description, all owned tags as compact colored checkboxes, and an optional single-contact radio picker. Contacts load alphabetically in batches of 12 inside a separately scrolling region; selected contact text remains visible even when the contact is outside the initially loaded batch. No contact clears the selection. Tags support zero, one, or multiple attachments through an indexed many-to-many pivot, supporting later tag filters, grouping, and aggregates.
+
+Alpine formats the amount with thousands separators while typing and preserves the caret by digit position; the deferred server value contains only digits. The input has `inputmode="numeric"`. Amounts are positive whole numbers from 1 to 999,999,999,999; no currency or fractional amount convention was specified. The description is trimmed, limited to 255 characters, and stored as null when blank. The modal footer remains outside the scrolling form body, with red Save expense and green Save income controls. Saving while editing can also change the transaction type. Enter submits as expense. Opening a fresh editor or closing it resets fields, errors, pagination, and editing identity. Close, Escape, and backdrop click dismiss it; native dialog behavior contains focus and the amount initially receives focus. Save buttons disable during requests. Successful saves close the modal and notify the ledger to refresh without dropping its loaded range.
+
+The page and modal reuse the existing dark galaxy indigo neumorphism and a centered shell no wider than 440px, including on desktop. The screen uses the established Instrument Sans and Bootstrap Icons. No charts, totals, dashboard changes, or contact-profile ledger were added.
+
+## Routes
+
+- `GET|HEAD /transactions`, named `transactions`, is defined in `routes/web.php` with web and auth middleware. Guests redirect to `login`.
+- The shared editor is mounted by `resources/views/components/layouts/app.blade.php` on authenticated destinations, including `/home`, `/tags`, `/transactions`, `/statistics`, `/contacts`, and contact profiles.
+- Create, edit, save, delete, refresh, and load-more actions use Livewire's managed update endpoint; no custom transaction mutation routes were added.
+- Events: `open-transaction-modal` opens a fresh editor; `edit-transaction` carries a transaction ID to the editor; `transaction-saved` refreshes the ledger and its status message.
+
+## Related Source
+
+- View: `resources/views/transactions.blade.php` mounts `transaction-manager` within the existing app layout.
+- Ledger SFC: `resources/views/components/⚡transaction-manager.blade.php` owns the scoped, eager-loaded paginated query, deletion, save-event refresh, cards, and disclosure actions.
+- Editor SFC: `resources/views/components/⚡add-transaction-modal.blade.php` owns add/edit state, validation, scoped contact/tag queries, contact pagination, atomic persistence, and dialog markup. Its existing component name and dialog ID are retained for navigation integration.
+- Models: `app/Models/Transaction.php` defines integer amount/boolean income casts, `user()`, `contact()`, `tags()`, and `persianCreatedAt()`. `User::transactions()` and `Contact::transactions()` are has-many relationships; `Tag::transactions()` is the inverse many-to-many relationship. Query these through the current account for future statistics and filtering.
+- Migration: `database/migrations/2026_11_11_141537_create_transactions_table.php` defines ID, owner, unsigned integer amount, nullable contact/255-character description, income flag, and timestamps. Its user/created_at/ID index supports the ledger. Account deletion cascades transaction rows; contact deletion nulls the association and preserves the transaction.
+- Pivot migration: `database/migrations/2026_11_11_141541_create_tag_transaction_table.php` creates `tag_transaction`, with foreign keys cascading on deletion, a transaction/tag composite primary key preventing duplicate attachments, and a tag/transaction index for reverse lookups and statistics. Deleting a tag only removes its attachments. Deleting a transaction preserves its contact and tags.
+- Factory: `database/factories/TransactionFactory.php` supplies an owner, positive whole amount, optional-free default associations, description, and expense flag; `income()` changes the direction and `for($user)` reuses an account.
+- Optional seeder: `database/seeders/TransactionSeeder.php` creates a sample expense for existing accounts using `firstOrCreate`. It is not called by `DatabaseSeeder` and was not run on application data.
+- Styles: transaction tokens and card, tag selector, contact picker, scrolling editor, and pinned footer rules in `resources/css/app.css`.
+- Controllers/services: none required; persistence remains in the editor component, following the existing tag/contact architecture.
+
+## Validation and Security
+
+Both Livewire components reject unauthenticated initial renders and updates in `boot()`. Every transaction read, edit, save, and delete uses the authenticated user's relationship; foreign IDs return 404. Save rechecks ownership after opening an editor. Editing IDs, pagination counts, and the editor reset key are locked against client changes. A closed editor cannot save.
+
+Contact and each distinct tag ID must exist under the current account, and associations are revalidated on every save. Transaction writes and pivot synchronization share a database transaction. Only validated data and the explicitly selected income flag are persisted; ownership comes from the user's relationship and is not mass assignable. The ledger eager-loads only contact/tag records still owned by the account, so reassigned related records do not leak their names. All free text is escaped in Blade. Colors come from the existing validated tag color field. No sample transactions were inserted in the application database.
+
+## Verification
+
+- `php artisan test --compact tests/Feature/TransactionsTest.php tests/Feature/NavigationMenuTest.php`: 56 passing cases, 325 assertions. Covers account-owned ordered batches and termination, full card information, Persian calendar/leap-day/Tehran boundaries, expense/income creation, optional associations, large amounts, edit prefill and type changes, replacing/clearing associations, validation, foreign/missing IDs, cancelled/reset state, ownership changes, stale associations, deletion, contact/tag deletion preserving transactions, save refresh events, escaping, locked state, closed editors, expired sessions, and guest refusal.
+- `php artisan test --compact tests/Feature/TagsTest.php tests/Feature/ContactsTest.php`: 62 passing cases, 265 assertions.
+- `php vendor/bin/phpstan analyse --no-progress --memory-limit=512M`: passed with zero errors.
+- `vendor/bin/pint --dirty --format agent`: passed.
+- Windows `cmd.exe /c npm run build`: passed with the existing optional font fallback warning.
+- `php artisan migrate --no-interaction`: applied both transaction migrations locally; no sample data was seeded there.
+- Headless Chrome checked 320, 390, 768, and 1440px: no horizontal overflow; the shell stays at most 440px wide and aligns with the fixed navigation. Screenshots of the ledger, disclosure actions, 320px editor, and validation state were reviewed. Verified automatic ledger and picker batches 12 → 24 → 26, stopping, initial amount focus, live thousands separators, fixed save buttons during body scrolling, tag/contact selection, creation, edit prefill, direction changes, validation, Escape/backdrop reset and reopening, creation from Tags, Livewire navigation, and cancelled/confirmed deletion. No JavaScript exceptions occurred. All fixtures belonged to an isolated temporary database.
+- Design reference: True-black flat, seed 181613286, adapted to the required galaxy indigo, neumorphism, red/green transaction surfaces, and centered mobile shell. Its face is the signed amount paired with a Persian date. The frontend inspector passed with zero failures at 390, 768, and 1440px. Allowances for `button-fx` and `heavy-shadow` preserve explicitly required neumorphism; `covered-text` permits ordinary content passing behind the required fixed navigation while scrolling. Its one desktop whitespace warning follows the centered mobile layout requirement. Source lint only warns about required shadows.

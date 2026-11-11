@@ -11,6 +11,10 @@
     --color-galaxy-muted: #b1b3ce;
     --color-galaxy-accent: #bbb8ff;
     --color-galaxy-error: #ffb0bf;
+    --color-transaction-income: #9fe1bb;
+    --color-transaction-income-surface: #20382c;
+    --color-transaction-expense: #ffb3b3;
+    --color-transaction-expense-surface: #3c282b;
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 }
 
@@ -19,6 +23,90 @@
 }
 
 @layer components {
+    .transaction-card {
+        @apply flex w-full cursor-pointer flex-col gap-3 rounded-3xl p-5 text-left;
+        box-shadow: 6px 6px 14px #111225, -4px -4px 12px #282b48;
+    }
+
+    .transaction-income {
+        @apply bg-transaction-income-surface text-transaction-income;
+    }
+
+    .transaction-expense {
+        @apply bg-transaction-expense-surface text-transaction-expense;
+    }
+
+    .transaction-card[aria-expanded='true'] {
+        box-shadow: inset 4px 4px 8px #131426, inset -3px -3px 8px #ffffff08;
+    }
+
+    .transaction-card:focus-visible,
+    .transaction-save:focus-visible,
+    .transaction-contact-list:focus-visible {
+        outline: 2px solid var(--color-galaxy-accent);
+        outline-offset: 3px;
+    }
+
+    .transaction-tag,
+    .transaction-tag-option {
+        @apply rounded-xl px-3 py-1 text-xs font-medium wrap-anywhere;
+        background-color: var(--tag-color);
+        color: var(--tag-ink);
+    }
+
+    .transaction-tag-option {
+        @apply flex min-h-11 max-w-full cursor-pointer items-center gap-2 text-sm;
+    }
+
+    .transaction-tag-option:has(:checked) {
+        outline: 2px solid var(--color-galaxy-ink);
+        outline-offset: 2px;
+    }
+
+    .transaction-editor {
+        overflow: hidden;
+    }
+
+    .transaction-editor-frame {
+        @apply flex min-h-0 flex-col;
+        height: min(780px, calc(100dvh - 2rem));
+    }
+
+    .transaction-editor-body {
+        @apply min-h-0 flex-1 overflow-y-auto overscroll-contain;
+    }
+
+    .transaction-editor-footer {
+        @apply bg-galaxy;
+        padding-bottom: calc(1.25rem + env(safe-area-inset-bottom));
+        box-shadow: 0 -6px 16px #13142666;
+    }
+
+    .transaction-save {
+        @apply flex min-h-13 cursor-pointer items-center justify-center gap-2 rounded-2xl px-2 text-sm font-semibold text-galaxy-deep;
+        box-shadow: 4px 4px 10px #111225, -3px -3px 10px #282b48;
+    }
+
+    .transaction-save-expense {
+        @apply bg-transaction-expense hover:brightness-110;
+    }
+
+    .transaction-save-income {
+        @apply bg-transaction-income hover:brightness-110;
+    }
+
+    .transaction-contact-list {
+        @apply max-h-52 overflow-y-auto overscroll-contain rounded-2xl bg-galaxy-deep p-2;
+    }
+
+    .transaction-contact-option {
+        @apply flex min-h-11 cursor-pointer items-center gap-3 rounded-xl px-3 py-2 text-sm;
+    }
+
+    .transaction-contact-option:has(:checked) {
+        @apply bg-galaxy text-galaxy-accent;
+    }
+
     .contact-card {
         @apply flex min-h-44 w-full cursor-pointer flex-col items-center justify-start gap-4 rounded-3xl bg-galaxy px-3 py-5;
         box-shadow: 6px 6px 14px #111225, -4px -4px 12px #282b48;

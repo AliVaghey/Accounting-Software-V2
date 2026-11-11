@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Carbon;
 
 /**
@@ -28,6 +29,12 @@ class Tag extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    /** @return BelongsToMany<Transaction, $this> */
+    public function transactions(): BelongsToMany
+    {
+        return $this->belongsToMany(Transaction::class);
     }
 
     public function foregroundColor(): string

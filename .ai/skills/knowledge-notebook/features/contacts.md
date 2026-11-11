@@ -8,7 +8,7 @@ Each card displays a circular photo or a name initial, with the name below. Tapp
 
 Add contact opens a native dialog above the list. Edit loads the selected contact into the same dialog. Users can add, retain, replace, or remove an optional photo. Saving refreshes the visible list and shows a status message. Cancel, Close, Escape, and a backdrop click discard unsaved form state. The photo input is recreated when the editor resets, preventing a stale selected file when it reopens. Upload progress is shown and submission is disabled during uploads and requests. The name field initially receives focus, and native modal behavior contains focus. Alpine display bindings tolerate component teardown during Livewire navigation.
 
-Contact profiles intentionally contain no main content yet. They retain the shared navigation and transaction placeholder dialog, and Contacts/More remain active. Transaction models and contact-transaction relationships are deferred.
+Contact profiles intentionally contain no main content yet. They retain the shared navigation and [transaction editor](transactions.md), and Contacts/More remain active. `Contact::transactions()` provides the has-many relationship; deleting a contact nulls the optional transaction association and preserves its ledger history.
 
 ## Routes
 

@@ -2,17 +2,17 @@
 
 ## Status and Purpose
 
-Initialized on October 24, 2026 from the Laravel blank Livewire starter kit. Accounting Software is intended to track personal transactions. [Authentication](authentication.md) is implemented; transaction management and the accounting dashboard are not yet implemented.
+Initialized on October 24, 2026 from the Laravel blank Livewire starter kit. Accounting Software tracks personal transactions. [Authentication](authentication.md), tags, contacts, and [transaction management](transactions.md) are implemented; the accounting dashboard remains deferred.
 
 ## Installed Stack
 
 Verified using Laravel Boost application information and `composer show --direct` during notebook initialization:
 
 - PHP 8.4 and Laravel 13.38.0.
-- Livewire 4.4.8 and Blaze 1.0.19; [navigation](navigation-menu.md) adds the first application Livewire component, an empty transaction dialog.
+- Livewire 4.4.8 and Blaze 1.0.19; [navigation](navigation-menu.md) mounts the shared transaction dialog, extended into the [transaction editor](transactions.md).
 - Bootstrap Icons 1.13.2.
 - Pest 5.3.3 with the Laravel plugin 5.0.1.
-- Default database connection: SQLite. Tag and contact migrations have been applied locally; see their feature notes.
+- Default database connection: SQLite. Tag, contact, transaction, and tag-attachment migrations have been applied locally; see their feature notes.
 
 `package.json` declares Tailwind CSS 4, Vite 8, and Vite Plus 0.3.0. Use the Windows installation of npm for frontend commands, per project instructions.
 
@@ -23,7 +23,7 @@ Verified using Laravel Boost application information and `composer show --direct
 | GET/HEAD | `/` | None | Redirects guests to login and authenticated users to `/home` | `routes/web.php` |
 | GET/HEAD | `/home` | `home` | Dashboard with empty main content and shared bottom navigation | `routes/web.php` |
 | GET/HEAD | `/tags` | `tags` | [Account-owned tag management](tags.md) with shared navigation | `routes/web.php` |
-| GET/HEAD | `/transactions` | `transactions` | Empty authenticated Transactions page with shared navigation | `routes/web.php` |
+| GET/HEAD | `/transactions` | `transactions` | [Private transaction ledger and editor](transactions.md) with shared navigation | `routes/web.php` |
 | GET/HEAD | `/statistics` | `statistics` | Empty authenticated Statistics page with shared navigation | `routes/web.php` |
 | GET/HEAD | `/contacts` | `contacts` | [Private contact management](contacts.md) with shared navigation | `routes/web.php` |
 | GET/HEAD | `/contacts/{contact}` | `contacts.show` | Protected empty contact profile | `ContactController::show` |
@@ -39,7 +39,7 @@ The welcome page has been removed. Application routes are verified with `php art
 - Frontend assets: `resources/css/app.css` and `resources/js/app.js` are the existing entry points.
 - Models: `app/Models/User.php` is the starter user model, with its factory in `database/factories/UserFactory.php`. Neither endpoint requires user records.
 - Services: no feature service classes. `app/Providers/AppServiceProvider.php` contains application defaults and the Boost agent registration.
-- Persistence: starter migrations in `database/migrations/` define users, password reset tokens, sessions, cache, and jobs infrastructure. Tags and contacts have account-owned models and migrations; transaction models and migrations remain deferred.
+- Persistence: starter migrations in `database/migrations/` define users, password reset tokens, sessions, cache, and jobs infrastructure. Tags, contacts, and transactions have account-owned models and migrations; transactions attach multiple tags through an indexed pivot.
 - Access: `/`, `/home`, `/tags`, `/transactions`, `/statistics`, `/contacts`, and contact profile/photo routes require authentication. `/up` remains a framework health endpoint.
 
 ## Requirements and Configuration

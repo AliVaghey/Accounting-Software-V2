@@ -5,7 +5,7 @@ use Livewire\Livewire;
 
 test('redirects guests away from navigation destinations', function (string $path) {
     $this->get($path)->assertRedirectToRoute('login');
-})->with(['/tags', '/transactions', '/statistics']);
+})->with(['/tags', '/transactions', '/statistics', '/contacts']);
 
 test('renders the navigation on every authenticated destination', function (string $routeName, string $view) {
     $user = User::factory()->create();
@@ -21,7 +21,9 @@ test('renders the navigation on every authenticated destination', function (stri
             'href="'.route('tags').'"',
             'aria-label="Add transaction"',
             'href="'.route('transactions').'"',
+            '>More</span>',
             'href="'.route('statistics').'"',
+            'href="'.route('contacts').'"',
         ], false);
 
     $document = new DOMDocument;
@@ -31,8 +33,14 @@ test('renders the navigation on every authenticated destination', function (stri
 
     expect($activeLinks)->toHaveCount(1);
     expect($activeLinks->item(0)->getAttribute('href'))->toBe(route($routeName));
-    expect($xpath->query('//nav//a[@*[name()="wire:navigate.hover"]]'))->toHaveCount(4);
-    expect($xpath->query('//nav//button'))->toHaveCount(1);
+    expect($xpath->query('//nav//a[@*[name()="wire:navigate.hover"]]'))->toHaveCount(5);
+    expect($xpath->query('//nav//button'))->toHaveCount(2);
+    expect($xpath->query('//div[@id="more-options"]//a'))->toHaveCount(2);
+    expect($xpath->query('//button[@id="more-options-button" and @aria-controls="more-options" and @aria-expanded="false"]'))->toHaveCount(1);
+    expect($xpath->query('//div[@id="more-options"]//a')->item(0)->getAttribute('href'))->toBe(route('statistics'));
+    expect($xpath->query('//div[@id="more-options"]//a')->item(1)->getAttribute('href'))->toBe(route('contacts'));
+    expect($xpath->query('//button[@id="more-options-button" and contains(@class, "navigation-more-active")]'))
+        ->toHaveCount(in_array($routeName, ['statistics', 'contacts']) ? 1 : 0);
     if ($routeName !== 'tags') {
         expect($response->getContent())->toMatch('/<main\b[^>]*>\s*<\/main>/s');
     }
@@ -41,6 +49,7 @@ test('renders the navigation on every authenticated destination', function (stri
     'tags' => ['tags', 'tags'],
     'transactions' => ['transactions', 'transactions'],
     'statistics' => ['statistics', 'statistics'],
+    'contacts' => ['contacts', 'contacts'],
 ]);
 
 test('omits navigation and the transaction modal from authentication pages', function (string $path) {

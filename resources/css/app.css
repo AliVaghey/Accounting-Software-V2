@@ -14,6 +14,10 @@
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 }
 
+[x-cloak] {
+    display: none !important;
+}
+
 @layer components {
     .tag-card {
         @apply flex min-h-40 flex-col justify-between gap-6 rounded-3xl p-5;
@@ -99,9 +103,23 @@
         @apply flex min-h-16 min-w-0 flex-col items-center justify-center gap-2 rounded-2xl text-galaxy-muted transition-colors hover:text-galaxy-ink;
     }
 
-    .navigation-link[aria-current='page'] {
+    .navigation-link[aria-current='page'],
+    .navigation-more-active {
         @apply text-galaxy-accent;
         box-shadow: inset 4px 4px 8px #131426, inset -3px -3px 8px #252842;
+    }
+
+    .navigation-more-menu {
+        @apply absolute right-0 bottom-full mb-3 w-48 rounded-3xl bg-galaxy p-2;
+        box-shadow: 6px 6px 16px #111225, -4px -4px 12px #282b48;
+    }
+
+    .navigation-more-menu .navigation-link {
+        @apply min-h-12 flex-row justify-start gap-3 px-3;
+    }
+
+    .navigation-more-menu .navigation-link span {
+        @apply text-sm;
     }
 
     .navigation-add {

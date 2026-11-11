@@ -15,8 +15,9 @@ Accounting Software is a minimal personal transaction tracking application. Proj
 
 - [Project foundation](features/project-foundation.md): Installed stack, framework health endpoint (`GET /up`), infrastructure, and configuration differences. The starter welcome page has been removed.
 - [Authentication](features/authentication.md): Session login, registration, remember me, logout, validation, throttling, guest redirects, and the protected Dashboard (`GET /home`, named `home`). Authentication forms use a centered mobile layout in dark indigo neumorphism.
-- [Navigation menu](features/navigation-menu.md): Fixed bottom navigation on authenticated pages, active links with hover prefetching, and an empty Livewire Add transaction dialog. The Tags destination now contains tag management; the other destination content remains empty.
+- [Navigation menu](features/navigation-menu.md): Fixed bottom navigation on authenticated pages, active links with hover prefetching, a More drop-up linking to Statistics and Contacts, and an empty Livewire Add transaction dialog. The Tags destination contains tag management; the other destination content remains empty.
 - [Tags](features/tags.md): Account-owned tags at `GET /tags` (named `tags`), an unpaginated alphabetical list of color cards, and Livewire create/edit dialogs with preset and custom colors, validation, and confirmed deletion. No transaction models or relationships are implemented.
+- [Contacts](features/contacts.md): Protected empty Contacts page at `GET /contacts` (named `contacts`), reached from the More drop-up. Contact management is deferred.
 
 ## Maintaining the Notebook
 

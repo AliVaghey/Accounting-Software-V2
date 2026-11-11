@@ -20,5 +20,6 @@ Route::middleware('auth')->group(function (): void {
     Route::view('/tags', 'tags')->name('tags');
     Route::view('/transactions', 'transactions')->name('transactions');
     Route::view('/statistics', 'statistics')->name('statistics');
+    Route::view('/contacts', 'contacts')->name('contacts');
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 });

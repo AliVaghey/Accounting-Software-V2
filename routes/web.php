@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\ContactPhotoController;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Route;
 
@@ -21,5 +23,7 @@ Route::middleware('auth')->group(function (): void {
     Route::view('/transactions', 'transactions')->name('transactions');
     Route::view('/statistics', 'statistics')->name('statistics');
     Route::view('/contacts', 'contacts')->name('contacts');
+    Route::get('/contacts/{contact}', [ContactController::class, 'show'])->name('contacts.show');
+    Route::get('/contacts/{contact}/photo', ContactPhotoController::class)->name('contacts.photo');
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 });

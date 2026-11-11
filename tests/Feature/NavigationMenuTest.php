@@ -41,7 +41,7 @@ test('renders the navigation on every authenticated destination', function (stri
     expect($xpath->query('//div[@id="more-options"]//a')->item(1)->getAttribute('href'))->toBe(route('contacts'));
     expect($xpath->query('//button[@id="more-options-button" and contains(@class, "navigation-more-active")]'))
         ->toHaveCount(in_array($routeName, ['statistics', 'contacts']) ? 1 : 0);
-    if ($routeName !== 'tags') {
+    if (! in_array($routeName, ['tags', 'contacts'])) {
         expect($response->getContent())->toMatch('/<main\b[^>]*>\s*<\/main>/s');
     }
 })->with([

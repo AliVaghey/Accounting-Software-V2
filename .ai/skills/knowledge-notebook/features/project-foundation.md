@@ -12,7 +12,7 @@ Verified using Laravel Boost application information and `composer show --direct
 - Livewire 4.4.8 and Blaze 1.0.19; [navigation](navigation-menu.md) adds the first application Livewire component, an empty transaction dialog.
 - Bootstrap Icons 1.13.2.
 - Pest 5.3.3 with the Laravel plugin 5.0.1.
-- Default database connection: SQLite. Database contents and migration execution were not inspected.
+- Default database connection: SQLite. Tag and contact migrations have been applied locally; see their feature notes.
 
 `package.json` declares Tailwind CSS 4, Vite 8, and Vite Plus 0.3.0. Use the Windows installation of npm for frontend commands, per project instructions.
 
@@ -22,9 +22,12 @@ Verified using Laravel Boost application information and `composer show --direct
 | --- | --- | --- | --- | --- |
 | GET/HEAD | `/` | None | Redirects guests to login and authenticated users to `/home` | `routes/web.php` |
 | GET/HEAD | `/home` | `home` | Dashboard with empty main content and shared bottom navigation | `routes/web.php` |
-| GET/HEAD | `/tags` | `tags` | Empty authenticated Tags page with shared navigation | `routes/web.php` |
+| GET/HEAD | `/tags` | `tags` | [Account-owned tag management](tags.md) with shared navigation | `routes/web.php` |
 | GET/HEAD | `/transactions` | `transactions` | Empty authenticated Transactions page with shared navigation | `routes/web.php` |
 | GET/HEAD | `/statistics` | `statistics` | Empty authenticated Statistics page with shared navigation | `routes/web.php` |
+| GET/HEAD | `/contacts` | `contacts` | [Private contact management](contacts.md) with shared navigation | `routes/web.php` |
+| GET/HEAD | `/contacts/{contact}` | `contacts.show` | Protected empty contact profile | `ContactController::show` |
+| GET/HEAD | `/contacts/{contact}/photo` | `contacts.photo` | Owner-only private profile photo response | `ContactPhotoController` |
 | GET/HEAD | `/up` | Framework managed | Framework health endpoint | `bootstrap/app.php` |
 
 The welcome page has been removed. Application routes are verified with `php artisan route:list --except-vendor --no-interaction`; see [authentication](authentication.md) for authentication endpoints. The health endpoint is configured by `withRouting(health: '/up')` in `bootstrap/app.php`. Package routes are outside this feature inventory.
@@ -36,8 +39,8 @@ The welcome page has been removed. Application routes are verified with `php art
 - Frontend assets: `resources/css/app.css` and `resources/js/app.js` are the existing entry points.
 - Models: `app/Models/User.php` is the starter user model, with its factory in `database/factories/UserFactory.php`. Neither endpoint requires user records.
 - Services: no feature service classes. `app/Providers/AppServiceProvider.php` contains application defaults and the Boost agent registration.
-- Persistence: starter migrations in `database/migrations/` define users, password reset tokens, sessions, cache, and jobs infrastructure. There are no accounting models or migrations.
-- Access: `/`, `/home`, `/tags`, `/transactions`, and `/statistics` require authentication. `/up` remains a framework health endpoint.
+- Persistence: starter migrations in `database/migrations/` define users, password reset tokens, sessions, cache, and jobs infrastructure. Tags and contacts have account-owned models and migrations; transaction models and migrations remain deferred.
+- Access: `/`, `/home`, `/tags`, `/transactions`, `/statistics`, `/contacts`, and contact profile/photo routes require authentication. `/up` remains a framework health endpoint.
 
 ## Requirements and Configuration
 

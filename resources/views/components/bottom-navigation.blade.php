@@ -25,7 +25,7 @@
     >
         <button
             type="button"
-            @class(['navigation-link w-full cursor-pointer', 'navigation-more-active' => request()->routeIs('statistics', 'contacts')])
+            @class(['navigation-link w-full cursor-pointer', 'navigation-more-active' => request()->routeIs('statistics', 'contacts', 'contacts.*')])
             id="more-options-button"
             aria-controls="more-options"
             aria-expanded="false"

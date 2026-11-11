@@ -19,6 +19,39 @@
 }
 
 @layer components {
+    .contact-card {
+        @apply flex min-h-44 w-full cursor-pointer flex-col items-center justify-start gap-4 rounded-3xl bg-galaxy px-3 py-5;
+        box-shadow: 6px 6px 14px #111225, -4px -4px 12px #282b48;
+    }
+
+    .contact-card[aria-expanded='true'] {
+        box-shadow: inset 4px 4px 8px #131426, inset -3px -3px 8px #252842;
+    }
+
+    .contact-avatar {
+        @apply flex size-18 shrink-0 items-center justify-center rounded-full bg-galaxy-deep object-cover text-2xl font-medium text-galaxy-accent;
+    }
+
+    .contact-action {
+        @apply flex min-h-11 min-w-0 cursor-pointer items-center justify-center rounded-xl text-galaxy-muted hover:text-galaxy-accent;
+        box-shadow: 3px 3px 7px #131426, -2px -2px 7px #252842;
+    }
+
+    .contact-card:hover {
+        color: var(--color-galaxy-accent);
+    }
+
+    .contact-card:focus-visible,
+    .contact-action:focus-visible,
+    .contact-photo-input:focus-visible {
+        outline: 2px solid var(--color-galaxy-accent);
+        outline-offset: 3px;
+    }
+
+    .contact-photo-input {
+        @apply min-h-13 w-full min-w-0 rounded-2xl bg-galaxy-deep p-2 text-sm text-galaxy-muted file:mr-3 file:min-h-10 file:cursor-pointer file:rounded-xl file:bg-galaxy file:px-3 file:text-sm file:font-medium file:text-galaxy-ink;
+    }
+
     .tag-card {
         @apply flex min-h-40 flex-col justify-between gap-6 rounded-3xl p-5;
         color: var(--tag-ink);

@@ -3,7 +3,7 @@
 <a
     href="{{ route($route) }}"
     wire:navigate.hover
-    @if (request()->routeIs($route)) aria-current="page" @endif
+    @if (request()->routeIs($route, $route.'.*')) aria-current="page" @endif
     {{ $attributes->class('navigation-link') }}
 >
     <i class="bi bi-{{ $icon }} text-xl leading-none" aria-hidden="true"></i>

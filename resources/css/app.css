@@ -15,6 +15,75 @@
 }
 
 @layer components {
+    .tag-card {
+        @apply flex min-h-40 flex-col justify-between gap-6 rounded-3xl p-5;
+        color: var(--tag-ink);
+        background-color: var(--tag-color);
+        box-shadow: 6px 6px 14px #111225, -4px -4px 12px #282b48,
+            inset 1px 1px 0 #ffffff40, inset -1px -1px 0 #0000001a;
+    }
+
+    .tag-action {
+        @apply inline-flex min-h-11 cursor-pointer items-center justify-center gap-2 rounded-xl px-3 text-sm font-medium;
+        box-shadow: inset 0 0 0 1px currentColor;
+    }
+
+    .tag-action:hover {
+        text-decoration: underline;
+        text-underline-offset: 3px;
+    }
+
+    .tag-action:focus-visible {
+        outline: 2px solid var(--tag-ink);
+        outline-offset: 3px;
+    }
+
+    .tag-empty,
+    .tag-cancel {
+        @apply rounded-3xl bg-galaxy;
+        box-shadow: 5px 5px 12px #131426, -4px -4px 12px #252842;
+    }
+
+    .tag-cancel {
+        @apply min-h-13 cursor-pointer rounded-2xl px-3 text-sm font-medium hover:text-galaxy-accent;
+    }
+
+    .tag-swatch {
+        @apply flex min-h-11 min-w-0 cursor-pointer items-center justify-center rounded-xl text-xl text-black;
+        background-color: var(--tag-color);
+    }
+
+    .tag-swatch[aria-pressed='true'] {
+        outline: 2px solid var(--color-galaxy-ink);
+        outline-offset: 3px;
+    }
+
+    .tag-color-input {
+        @apply size-13 shrink-0 cursor-pointer rounded-2xl bg-galaxy p-1;
+        box-shadow: inset 3px 3px 7px #131426, inset -3px -3px 7px #252842;
+    }
+
+    .tag-color-input::-webkit-color-swatch-wrapper {
+        padding: 3px;
+    }
+
+    .tag-color-input::-webkit-color-swatch,
+    .tag-color-input::-moz-color-swatch {
+        border: 0;
+        border-radius: 10px;
+    }
+
+    .tag-cancel:focus-visible,
+    .tag-swatch:focus-visible,
+    .tag-color-input:focus-visible {
+        outline: 2px solid var(--color-galaxy-accent);
+        outline-offset: 4px;
+    }
+
+    button:disabled {
+        cursor: wait;
+    }
+
     .app-with-navigation {
         padding-bottom: calc(8rem + env(safe-area-inset-bottom));
     }

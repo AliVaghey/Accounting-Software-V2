@@ -15,11 +15,11 @@ All destinations use web and auth middleware in `routes/web.php`. Guests redirec
 | Method | Path | Name | View and behavior |
 | --- | --- | --- | --- |
 | GET/HEAD | `/home` | `home` | `home`; Dashboard tab, preserving existing authentication redirects |
-| GET/HEAD | `/tags` | `tags` | `tags`; empty Tags page |
+| GET/HEAD | `/tags` | `tags` | `tags`; [tag management](tags.md) |
 | GET/HEAD | `/transactions` | `transactions` | `transactions`; empty Transactions page |
 | GET/HEAD | `/statistics` | `statistics` | `statistics`; empty Statistics page |
 
-The Dashboard uses the existing empty `resources/views/home.blade.php`; there is no separate `/dashboard` endpoint. All four main content slots intentionally remain empty. The modal has no dedicated page route; it uses Livewire's framework update endpoint and requires authentication to open.
+The Dashboard uses the existing empty `resources/views/home.blade.php`; there is no separate `/dashboard` endpoint. Dashboard, Transactions, and Statistics content slots intentionally remain empty. Tags now mounts the `tag-manager` Livewire component. The transaction modal has no dedicated page route; it uses Livewire's framework update endpoint and requires authentication to open.
 
 ## Related Source
 
@@ -38,4 +38,4 @@ The Dashboard uses the existing empty `resources/views/home.blade.php`; there is
 - Windows `cmd.exe /c npm run build`: passed; existing optional font fallback warning remains.
 - Headless Chrome checks passed at 320, 390, 768, and 1440px: full labels fit, no horizontal overflow, bar aligned with the centered mobile shell. Verified modal focus, close button, Escape, backdrop dismissal, client-side navigation and active links, modal reuse after navigation, fixed positioning after scrolling, and no JavaScript exceptions. The temporary preview used an unsaved factory user; no account records were created.
 - Frontend design inspector passed with explicit allowances for required indigo/neumorphic controls, small navigation labels, and intentionally empty page content. Screenshots were visually reviewed. Project requirements take precedence over the design skill's neutral color and populated-page defaults.
-- Accounting data, page content, and transaction creation are intentionally deferred.
+- Tags page content and persistence are now implemented; see [Tags](tags.md). Dashboard, Transactions, Statistics, and transaction creation remain deferred. The navigation test retains empty-content assertions for those three pages while checking the shared navigation on all four destinations.

@@ -7,7 +7,7 @@ test('redirects guests away from navigation destinations', function (string $pat
     $this->get($path)->assertRedirectToRoute('login');
 })->with(['/tags', '/transactions', '/statistics']);
 
-test('renders the navigation and empty content on every authenticated destination', function (string $routeName, string $view) {
+test('renders the navigation on every authenticated destination', function (string $routeName, string $view) {
     $user = User::factory()->create();
 
     $response = $this->actingAs($user)->get(route($routeName));
@@ -33,7 +33,9 @@ test('renders the navigation and empty content on every authenticated destinatio
     expect($activeLinks->item(0)->getAttribute('href'))->toBe(route($routeName));
     expect($xpath->query('//nav//a[@*[name()="wire:navigate.hover"]]'))->toHaveCount(4);
     expect($xpath->query('//nav//button'))->toHaveCount(1);
-    expect($response->getContent())->toMatch('/<main\b[^>]*>\s*<\/main>/s');
+    if ($routeName !== 'tags') {
+        expect($response->getContent())->toMatch('/<main\b[^>]*>\s*<\/main>/s');
+    }
 })->with([
     'dashboard' => ['home', 'home'],
     'tags' => ['tags', 'tags'],

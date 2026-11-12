@@ -13,7 +13,7 @@
     </head>
     <body class="min-h-dvh bg-galaxy-deep font-sans text-galaxy-ink antialiased">
         <main @class([
-            'mx-auto flex min-h-dvh w-full max-w-[440px] flex-col bg-galaxy px-6 py-10 sm:px-8',
+            'mx-auto flex min-h-dvh w-full max-w-[440px] flex-col bg-galaxy px-6 py-10 sm:px-8 pb-32',
             'app-with-navigation' => auth()->check(),
         ])>
             {{ $slot }}

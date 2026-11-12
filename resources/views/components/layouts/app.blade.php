@@ -6,8 +6,12 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
         <meta name="theme-color" content="#1b1d35">
+        <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <link rel="shortcut icon" href="/favicon.ico" />
         <title>{{ $title }} · Accounting Software</title>
         @fonts
+        @PwaHead
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         @livewireStyles
     </head>
@@ -25,5 +29,6 @@
         @endauth
 
         @livewireScripts
+        @RegisterServiceWorkerScript
     </body>
 </html>
